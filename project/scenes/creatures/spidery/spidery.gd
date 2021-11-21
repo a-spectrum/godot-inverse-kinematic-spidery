@@ -7,9 +7,6 @@ export var speed := 2.0
 export var jump_strength := 30.0
 export var gravity := 50
 
-onready var pointFL: Spatial = get_node("pointFL")
-onready var pointFR: Spatial = get_node("pointFR")
-
 var _velocity := Vector3.ZERO
 var _snap_vector := Vector3.DOWN
 
@@ -76,5 +73,5 @@ func move_character(delta: float) -> void:
 	_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.UP, true)
 	
 	if _velocity.length() > 0.2:
-		var look_direction = Vector2(_velocity.x, _velocity.z)
+		var look_direction = Vector2(_velocity.z, _velocity.x)
 		_model.rotation.y = look_direction.angle()
