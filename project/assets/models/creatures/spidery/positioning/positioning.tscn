@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/models/creatures/spidery/positioning/positioning.gd" type="Script" id=1]
+
+[node name="Spatial" type="Position3D"]
+script = ExtResource( 1 )
