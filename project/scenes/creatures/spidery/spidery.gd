@@ -3,7 +3,7 @@ extends KinematicBody
 #	----------------------
 #	For character movement
 #	----------------------
-export var speed := 3.0
+export var speed := 2.0
 export var jump_strength := 30.0
 export var gravity := 50
 
@@ -24,10 +24,10 @@ onready var positionFR := $positions/positionLegFR
 onready var positionBL := $positions/positionLegBL
 onready var positionBR := $positions/positionLegBR
 
-onready var rayCastFL := $RaycastsLegs/RayCastLegFL
-onready var rayCastFR := $RaycastsLegs/RayCastLegFR
-onready var rayCastBL := $RaycastsLegs/RayCastLegBL
-onready var rayCastBR := $RaycastsLegs/RayCastLegBR
+onready var rayCastFL := $Armature/Skeleton/RaycastsLegs/RayCastLegFL
+onready var rayCastFR := $Armature/Skeleton/RaycastsLegs/RayCastLegFR
+onready var rayCastBL := $Armature/Skeleton/RaycastsLegs/RayCastLegBL
+onready var rayCastBR := $Armature/Skeleton/RaycastsLegs/RayCastLegBR
 
 onready var legFL_IK := $Armature/Skeleton/legFrontLeft
 onready var legFR_IK := $Armature/Skeleton/legFrontRight
@@ -47,6 +47,9 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	move_character(delta)
+	
+	if rayCastFR.is_colliding():
+		$Armature/Skeleton/RaycastsLegs/RayCastLegFR/MeshInstance.global_transform.origin = rayCastFR.get_collision_point()
 
 func _process(_delta: float) -> void:
 	_spring_arm.translation = translation	
@@ -73,5 +76,5 @@ func move_character(delta: float) -> void:
 	_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.UP, true)
 	
 	if _velocity.length() > 0.2:
-		var look_direction = Vector2(_velocity.z, _velocity.x)
+		var look_direction = Vector2(_velocity.x, _velocity.z)
 		_model.rotation.y = look_direction.angle()
